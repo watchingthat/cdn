@@ -1,0 +1,1 @@
+aws s3 sync ./files s3://cdn.watchingthat.net
