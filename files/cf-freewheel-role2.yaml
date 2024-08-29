@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: This template will create a role giving Watching That read-only access to your FreeWheel logs
+Parameters:
+  FWNetworkId:
+    Type: String
+    Description: Enter your FreeWheel Network ID
+Resources:
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: "WatchingthatProxyRole"
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: "sts:AssumeRole"
+            Principal:
+              AWS: "arn:aws:iam::409092538980:root"
+      Policies:
+        # Inline policy
+        - PolicyName: "AllowFWAssumeRole"
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: "sts:AssumeRole"
+                Resource: !Join
+                  - ''
+                  - - 'arn:aws:iam::265086463190:role/'
+                    - !Ref FWNetworkId
+                    - '-V4LogAccess-role'
+              - Effect: Allow
+                Action: "sts:AssumeRole"
+                Resource: !Join
+                  - ''
+                  - - 'arn:aws:iam::697717316240:role/'
+                    - !Ref FWNetworkId
+                    - '-ReportAccess-role'

@@ -1,1 +1,1 @@
-aws s3 sync ./files s3://cdn.watchingthat.net
+aws s3 sync --delete ./files s3://cdn.watchingthat.net
